@@ -1,0 +1,25 @@
+Building the Chromium-based WebView in AOSP is no longer supported. WebView can
+now be built entirely from the Chromium source code.
+
+General instructions for building WebView from Chromium:
+https://www.chromium.org/developers/how-tos/build-instructions-android-webview
+
+------
+
+The prebuilt libwebviewchromium.so included in these APKs is built from Chromium
+release tag 44.0.2403.114. To match our build settings, set:
+
+GYP_DEFINES="OS=android release_unwind_tables=0 buildtype=Official chrome_build_id='2e7c7a0f-c733-4b9a-9c8e-d3cf0938369b'"
+
+in your environment before running build/gyp_chromium.
+
+------
+
+Due to WebView API changes in the M release, the Java code in the Chromium 2403
+branch is not compatible with M. We'll be working on upstreaming the M-specific
+Java changes to Chromium once the final M SDK is released.
+
+------
+
+For questions about building WebView, please see
+https://groups.google.com/a/chromium.org/forum/#!forum/android-webview-dev
