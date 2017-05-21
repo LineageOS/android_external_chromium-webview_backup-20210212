@@ -7,7 +7,7 @@ https://www.chromium.org/developers/how-tos/build-instructions-android-webview
 ------
 
 The prebuilt libwebviewchromium.so included in these APKs is built from Chromium
-release tag 58.0.3029.108, using the GN build tool. To match our build settings, set:
+release tag 58.0.3029.124, using the GN build tool. To match our build settings, set:
 
 target_os="android"
 is_debug=false
@@ -24,9 +24,9 @@ in your GN argument file before building.
 
 ------
 
-Due to WebView API changes in the O release, the Java code in the Chromium 3029
-branch is not compatible with O. We'll be working on upstreaming the O-specific
-Java changes to Chromium once the final O SDK is released.
+Due to WebView API changes in the O release, the Java code in the Chromium 
+3029_108 branch is not compatible with O. We'll be working on upstreaming 
+the O-specific Java changes to Chromium once the final O SDK is released.
 
 ------
 
