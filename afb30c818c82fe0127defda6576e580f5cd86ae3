@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_0aa03f8f",
+        "filename": "README",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2017-06-02T09:28:03Z",
+      "side": 1,
+      "message": "I wonder whether we shouldn\u0027t move this to pastebin or whatever. Otherwise you\u0027ll force me to remind myself I shouldn\u0027t delete this patch from or alter it in my Dropbox ;-)",
+      "revId": "afb30c818c82fe0127defda6576e580f5cd86ae3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
