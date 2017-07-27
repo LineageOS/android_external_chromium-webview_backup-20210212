@@ -7,7 +7,7 @@ https://www.chromium.org/developers/how-tos/build-instructions-android-webview
 ------
 
 The prebuilt libwebviewchromium.so included in these APKs is built from Chromium
-release tag 52.0.2743.100, using the GN build tool (not the older GYP tool). To match our build settings, set:
+release tag 60.0.3112.78, using the GN build tool (not the older GYP tool). To match our build settings, set:
 
 target_os="android"
 is_debug=false
@@ -19,14 +19,17 @@ enable_resource_whitelist_generation=true
 ffmpeg_branding="Chrome"
 proprietary_codecs=true
 enable_remoting=true
+is_component_build=false
+enable_nacl=false
+remove_webcore_debug_symbols=true
+android_default_version_name=60.0.3112.78
 
 in your GN argument file before building.
 
 ------
 
-Due to WebView API changes in the N release, the Java code in the Chromium 2743_91
-branch is not compatible with N. We'll be working on upstreaming the N-specific
-Java changes to Chromium once the final N SDK is released.
+Extra patches:
+patches/chromium-theme-color.patch: Provides a callback when a theme color is set by the page
 
 ------
 
