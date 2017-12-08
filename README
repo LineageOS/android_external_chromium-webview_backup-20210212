@@ -14,7 +14,6 @@ is_debug=false
 is_official_build=true
 is_chrome_branded=false
 use_official_google_api_keys=false
-exclude_unwind_tables=true
 enable_resource_whitelist_generation=true
 ffmpeg_branding="Chrome"
 proprietary_codecs=true
@@ -22,7 +21,7 @@ enable_remoting=true
 is_component_build=false
 enable_nacl=false
 remove_webcore_debug_symbols=true
-android_default_version_name=60.0.3112.78
+android_default_version_name=63.0.3239.83
 
 in your GN argument file before building.
 
