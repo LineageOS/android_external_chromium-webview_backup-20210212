@@ -7,7 +7,7 @@ https://www.chromium.org/developers/how-tos/build-instructions-android-webview
 ------
 
 The prebuilt libwebviewchromium.so included in these APKs is built from Chromium
-release tag 63.0.3239.111, using the GN build tool (not the older GYP tool). To match our build settings, set:
+release tag 64.0.3282.137, using the GN build tool (not the older GYP tool). To match our build settings, set:
 
 target_os="android"
 is_debug=false
@@ -21,7 +21,10 @@ enable_remoting=true
 is_component_build=false
 enable_nacl=false
 remove_webcore_debug_symbols=true
-android_default_version_name=63.0.3239.111
+android_default_version_name=64.0.3282.137
+android_default_version_code=3282137$$
+
+$$ depends on device ARCH
 
 in your GN argument file before building.
 
