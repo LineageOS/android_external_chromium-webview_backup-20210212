@@ -24,6 +24,9 @@ in your GN argument file before building.
 
 ------
 
+Extra patches:
+patches/chromium-theme-color.patch: Provides a callback when a theme color is set by the page
+
 Due to WebView API changes in the O-MR1 release, the Java code in the Chromium
 3163 branch is not compatible with O-MR1. We'll be working on upstreaming
 the O-MR1 specific Java changes to Chromium once the final O-MR1 SDK is released.
