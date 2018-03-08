@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e6d2ccb_a079ef7c",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 15173
+      },
+      "writtenOn": "2018-03-08T12:48:14Z",
+      "side": 0,
+      "message": "Given that we felt the need to add this parenthetical note on 14.1, do we really want to drop it?",
+      "range": {
+        "startLine": 10,
+        "startChar": 51,
+        "endLine": 10,
+        "endChar": 75
+      },
+      "revId": "110d08a48ffb0aa00a96ce04407665c2bf610012",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
