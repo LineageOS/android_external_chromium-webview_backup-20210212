@@ -26,6 +26,7 @@ android_default_version_name=66.0.3359.139
 android_default_version_code=3359139$$
 
 $$ depends on device ARCH
+(00=arm, 50=arm64, 10=x86, 60=x64, 20=mips)
 
 in your GN argument file before building.
 
