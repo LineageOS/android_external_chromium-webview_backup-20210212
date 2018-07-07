@@ -24,7 +24,12 @@ remove_webcore_debug_symbols=true
 android_default_version_name=67.0.3396.87
 android_default_version_code=3396087$$
 
-$$ depends on device ARCH
+$$ depends on device ARCH:
+
+arm64: 50
+arm: 00
+x86_64: 60
+x86: 10
 
 in your GN argument file before building.
 
