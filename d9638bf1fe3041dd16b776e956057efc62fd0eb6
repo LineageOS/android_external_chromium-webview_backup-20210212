@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7429d2d0_dece8a7d",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-31T11:42:16Z",
+      "side": 1,
+      "message": "x86_64 is called x64 in webview",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 6
+      },
+      "revId": "d9638bf1fe3041dd16b776e956057efc62fd0eb6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
