@@ -7,24 +7,24 @@ https://www.chromium.org/developers/how-tos/build-instructions-android-webview
 ------
 
 The prebuilt libwebviewchromium.so included in these APKs is built from Chromium
-release tag 67.0.3396.87, using the GN build tool. To match our build settings, set:
+release tag 69.0.3497.109, using the GN build tool. To match our build settings, set:
 
 target_os="android"
 is_debug=false
 is_official_build=true
 is_chrome_branded=false
 use_official_google_api_keys=false
-enable_resource_whitelist_generation=true
 ffmpeg_branding="Chrome"
 proprietary_codecs=true
 enable_remoting=true
 is_component_build=false
 enable_nacl=false
 remove_webcore_debug_symbols=true
-android_default_version_name=67.0.3396.87
-android_default_version_code=3396087$$
+android_default_version_name="69.0.3497.109"
+android_default_version_code="3497109$$"
 
 $$ depends on device ARCH
+(00=arm, 50=arm64, 10=x86, 60=x64, 20=mips)
 
 in your GN argument file before building.
 
@@ -36,8 +36,13 @@ patches/chromium-theme-color.patch: Provides a callback when a theme color is se
 ------
 
 MIPS WebView:
- - At Chromium release 67.0.3396.87, third_party/crashpad/crashpad needs an update from the [upstream](https://chromium.googlesource.com/crashpad/crashpad/)
-   master branch (commit 42b57efa554a47745cb84860ead46bc9f32b77a9 for the current build) to restore MIPS support.
+
+The MIPS WebView needs to have the following commits reverted for it to
+build correctly, due to some broken linker features (e.g. linker scripts).
+ - 4459a35317dd2c4f66b96856990e1e18e60dbb7d
+   ("android: Use a linker script to find the start and end of .text.")
+ - 41f5f31a195a5c8e7c35485ffe47e8d5db493fa6
+   ("Tracing: Add a metadata event to track chrome library start address")
 
 ------
 
