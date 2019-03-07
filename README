@@ -7,7 +7,7 @@ https://www.chromium.org/developers/how-tos/build-instructions-android-webview
 ------
 
 The prebuilt libwebviewchromium.so included in these APKs is built from Chromium
-release tag 71.0.3578.99, using the GN build tool. To match our build settings, set:
+release tag 72.0.3626.121, using the GN build tool. To match our build settings, set:
 
 target_os="android"
 is_debug=false
@@ -22,13 +22,34 @@ symbol_level=0
 enable_resource_whitelist_generation=false
 enable_nacl=false
 remove_webcore_debug_symbols=true
-android_default_version_name="71.0.3578.99"
-android_default_version_code="3578099$$"
+android_default_version_name="72.0.3626.121"
+android_default_version_code="3626121$$"
 
 $$ depends on device ARCH
 (00=arm, 50=arm64, 10=x86, 60=x64)
 
 in your GN argument file before building.
+
+------
+
+X86/X64
+
+The prebuilt libwebviewchromium.so included in these APKs is built from Chromium
+release tag 71.0.3578.99, using the GN build tool. To match our build settings, set
+the same arguments as specified above in your GN argument file before building.
+
+------
+
+Replace webview icon:
+
+From the chromium/src directory:
+
+mkdir -p android_webview/apk/java/res/drawable-xxxhdpi
+cp chrome/android/java/res_chromium/mipmap-mdpi/app_icon.png android_webview/apk/java/res/drawable-mdpi/icon_webview.png
+cp chrome/android/java/res_chromium/mipmap-hdpi/app_icon.png android_webview/apk/java/res/drawable-hdpi/icon_webview.png
+cp chrome/android/java/res_chromium/mipmap-xhdpi/app_icon.png android_webview/apk/java/res/drawable-xhdpi/icon_webview.png
+cp chrome/android/java/res_chromium/mipmap-xxhdpi/app_icon.png android_webview/apk/java/res/drawable-xxhdpi/icon_webview.png
+cp chrome/android/java/res_chromium/mipmap-xxxhdpi/app_icon.png android_webview/apk/java/res/drawable-xxxhdpi/icon_webview.png
 
 ------
 
