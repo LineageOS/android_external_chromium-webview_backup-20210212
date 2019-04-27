@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "985ec267_37073dfe",
+        "filename": "README",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 15173
+      },
+      "writtenOn": "2019-04-27T02:42:53Z",
+      "side": 1,
+      "message": "This mess of updates to match the exact out/*/args.ninja output of lineage/scripts/build-webview/build-webview.sh",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 0
+      },
+      "revId": "f5e703f3bd5100d312d6c9499bcb86b60218353e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
