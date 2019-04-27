@@ -1,19 +1,19 @@
-From 0fc3c679a01380c7d3518468250ca2b0552604d7 Mon Sep 17 00:00:00 2001
+From 04f24b1017eb00f683ac88418b73627cc1b3d7f3 Mon Sep 17 00:00:00 2001
 From: Danny Baumann <dannybaumann@web.de>
 Date: Thu, 18 May 2017 11:04:40 +0200
 Subject: [PATCH] Add support for getting updates for theme color changes.
 
 ---
  .../webview/chromium/WebViewChromium.java     |  9 +++++
- .../WebViewContentsClientAdapter.java         | 33 +++++++++++++++++++
+ .../WebViewContentsClientAdapter.java         | 34 +++++++++++++++++++
  .../android_webview/AwContentsClient.java     |  2 ++
- .../AwContentsClientCallbackHelper.java       | 11 +++++++
+ .../AwContentsClientCallbackHelper.java       | 11 ++++++
  .../AwWebContentsObserver.java                | 16 +++++++++
  .../test/NullContentsClient.java              |  4 +++
- 6 files changed, 75 insertions(+)
+ 6 files changed, 76 insertions(+)
 
 diff --git a/android_webview/glue/java/src/com/android/webview/chromium/WebViewChromium.java b/android_webview/glue/java/src/com/android/webview/chromium/WebViewChromium.java
-index e34c01dadeed..72261c5824de 100644
+index 7763d3949915..7f7bb282cada 100644
 --- a/android_webview/glue/java/src/com/android/webview/chromium/WebViewChromium.java
 +++ b/android_webview/glue/java/src/com/android/webview/chromium/WebViewChromium.java
 @@ -11,6 +11,7 @@ import android.content.Intent;
@@ -24,15 +24,15 @@ index e34c01dadeed..72261c5824de 100644
  import android.graphics.Paint;
  import android.graphics.Picture;
  import android.graphics.Rect;
-@@ -66,6 +67,7 @@ import org.chromium.base.metrics.CachedMetrics.TimesHistogramSample;
- import org.chromium.components.autofill.AutofillProvider;
+@@ -72,6 +73,7 @@ import org.chromium.components.autofill.AutofillProvider;
  import org.chromium.content_public.browser.NavigationHistory;
  import org.chromium.content_public.browser.SmartClipProvider;
+ import org.chromium.content_public.browser.UiThreadTaskTraits;
 +import org.chromium.content_public.browser.WebContents;
  
  import java.io.BufferedWriter;
  import java.io.File;
-@@ -990,6 +992,13 @@ class WebViewChromium implements WebViewProvider, WebViewProvider.ScrollDelegate
+@@ -1155,6 +1157,13 @@ class WebViewChromium implements WebViewProvider, WebViewProvider.ScrollDelegate
          return mAwContents.getMostRecentProgress();
      }
  
@@ -45,13 +45,13 @@ index e34c01dadeed..72261c5824de 100644
 +
      @Override
      public int getContentHeight() {
-         if (mAwContents == null) return 0;
+         sWebViewApiCallSample.record(ApiCall.GET_CONTENT_HEIGHT);
 diff --git a/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java b/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java
-index aa04e2857191..548bab27513e 100644
+index c1ba2d99d899..356915bba979 100644
 --- a/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java
 +++ b/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java
-@@ -63,6 +63,8 @@ import org.chromium.support_lib_boundary.util.Features;
- import org.chromium.support_lib_callback_glue.SupportLibWebViewContentsClientAdapter;
+@@ -56,6 +56,8 @@ import org.chromium.base.task.PostTask;
+ import org.chromium.content_public.browser.UiThreadTaskTraits;
  
  import java.lang.ref.WeakReference;
 +import java.lang.reflect.InvocationTargetException;
@@ -59,7 +59,7 @@ index aa04e2857191..548bab27513e 100644
  import java.security.Principal;
  import java.security.PrivateKey;
  import java.security.cert.X509Certificate;
-@@ -122,6 +124,9 @@ class WebViewContentsClientAdapter extends AwContentsClient {
+@@ -100,6 +102,9 @@ class WebViewContentsClientAdapter extends SharedWebViewContentsClientAdapter {
      private WeakHashMap<AwPermissionRequest, WeakReference<PermissionRequestAdapter>>
              mOngoingPermissionRequests;
  
@@ -69,10 +69,11 @@ index aa04e2857191..548bab27513e 100644
      /**
       * Adapter constructor.
       *
-@@ -145,6 +150,16 @@ class WebViewContentsClientAdapter extends AwContentsClient {
+@@ -110,6 +115,17 @@ class WebViewContentsClientAdapter extends SharedWebViewContentsClientAdapter {
+         super(webView, webViewDelegate, context);
+         try (ScopedSysTraceEvent event =
                          ScopedSysTraceEvent.scoped("WebViewContentsClientAdapter.constructor")) {
-             mSupportLibClient = new SupportLibWebViewContentsClientAdapter();
- 
++
 +            if (!sWebChromeClientThemeColorMethodInitialized) {
 +                try {
 +                    sWebChromeClientThemeColorMethod = WebChromeClient.class.getMethod(
@@ -86,7 +87,7 @@ index aa04e2857191..548bab27513e 100644
              mUiThreadHandler = new Handler() {
                  @Override
                  public void handleMessage(Message msg) {
-@@ -1228,6 +1243,24 @@ class WebViewContentsClientAdapter extends AwContentsClient {
+@@ -1029,6 +1045,24 @@ class WebViewContentsClientAdapter extends SharedWebViewContentsClientAdapter {
          }
      }
  
@@ -161,10 +162,10 @@ index 3fa731a47a10..632c4222746b 100644
          DoUpdateVisitedHistoryInfo info = new DoUpdateVisitedHistoryInfo(url, isReload);
          mHandler.sendMessage(mHandler.obtainMessage(MSG_DO_UPDATE_VISITED_HISTORY, info));
 diff --git a/android_webview/java/src/org/chromium/android_webview/AwWebContentsObserver.java b/android_webview/java/src/org/chromium/android_webview/AwWebContentsObserver.java
-index 0422649f188d..b881caf9299c 100644
+index 2c41a036cf44..e154a50e9212 100644
 --- a/android_webview/java/src/org/chromium/android_webview/AwWebContentsObserver.java
 +++ b/android_webview/java/src/org/chromium/android_webview/AwWebContentsObserver.java
-@@ -137,12 +137,28 @@ public class AwWebContentsObserver extends WebContentsObserver {
+@@ -139,12 +139,28 @@ public class AwWebContentsObserver extends WebContentsObserver {
              });
          }
  
@@ -176,7 +177,7 @@ index 0422649f188d..b881caf9299c 100644
 +            }
 +        }
 +
-         if (client != null && isFragmentNavigation) {
+         if (client != null && navigation.isFragmentNavigation()) {
              // Note fragment navigations do not have a matching onPageStarted.
              client.getCallbackHelper().postOnPageFinished(url);
          }
@@ -209,5 +210,5 @@ index abfa0011a63d..ce7eabafe65a 100644
      public AwWebResourceResponse shouldInterceptRequest(
              AwContentsClient.AwWebResourceRequest request) {
 -- 
-2.21.0
+2.17.1
 
