@@ -7,44 +7,46 @@ https://www.chromium.org/developers/how-tos/build-instructions-android-webview
 ------
 
 The prebuilt libwebviewchromium.so included in these APKs is built from Chromium
-release tag 71.0.3578.99, using the GN build tool. To match our build settings, set:
+release tag 75.0.3770.101, using the GN build tool. To match our build settings, set:
 
-target_os="android"
-is_debug=false
-is_official_build=true
-is_chrome_branded=false
-use_official_google_api_keys=false
-ffmpeg_branding="Chrome"
-proprietary_codecs=true
-enable_remoting=true
-is_component_build=false
-symbol_level=0
-enable_resource_whitelist_generation=false
-enable_nacl=false
-remove_webcore_debug_symbols=true
-android_default_version_name="71.0.3578.99"
-android_default_version_code="3578099$$"
+target_os = "android"
+is_debug = false
+is_official_build = true
+is_chrome_branded = false
+use_official_google_api_keys = false
+ffmpeg_branding = "Chrome"
+proprietary_codecs = true
+enable_resource_whitelist_generation = false
+enable_remoting = true
+is_component_build = false
+symbol_level = 0
+enable_nacl = false
+blink_symbol_level = 0
+android_default_version_name = "75.0.3770.101"
+android_default_version_code = "3770101$$"
 
 $$ depends on device ARCH
-(00=arm, 50=arm64, 10=x86, 60=x64, 20=mips)
+(00=arm, 50=arm64, 10=x86, 60=x64)
 
 in your GN argument file before building.
 
 ------
 
-Extra patches:
-patches/chromium-theme-color.patch: Provides a callback when a theme color is set by the page
+Replace webview icon:
+
+From the chromium/src directory:
+
+mkdir -p android_webview/apk/java/res/drawable-xxxhdpi
+cp chrome/android/java/res_chromium/mipmap-mdpi/app_icon.png android_webview/apk/java/res/drawable-mdpi/icon_webview.png
+cp chrome/android/java/res_chromium/mipmap-hdpi/app_icon.png android_webview/apk/java/res/drawable-hdpi/icon_webview.png
+cp chrome/android/java/res_chromium/mipmap-xhdpi/app_icon.png android_webview/apk/java/res/drawable-xhdpi/icon_webview.png
+cp chrome/android/java/res_chromium/mipmap-xxhdpi/app_icon.png android_webview/apk/java/res/drawable-xxhdpi/icon_webview.png
+cp chrome/android/java/res_chromium/mipmap-xxxhdpi/app_icon.png android_webview/apk/java/res/drawable-xxxhdpi/icon_webview.png
 
 ------
 
-MIPS WebView:
-
-The MIPS WebView needs to have the following commits reverted for it to
-build correctly, due to some broken linker features (e.g. linker scripts).
- - 4459a35317dd2c4f66b96856990e1e18e60dbb7d
-   ("android: Use a linker script to find the start and end of .text.")
- - 41f5f31a195a5c8e7c35485ffe47e8d5db493fa6
-   ("Tracing: Add a metadata event to track chrome library start address")
+Extra patches:
+patches/chromium-theme-color.patch: Provides a callback when a theme color is set by the page
 
 ------
 
