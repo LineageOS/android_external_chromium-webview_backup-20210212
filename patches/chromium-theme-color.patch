@@ -1,4 +1,4 @@
-From 04f24b1017eb00f683ac88418b73627cc1b3d7f3 Mon Sep 17 00:00:00 2001
+From baffd543b86a540d6e3d2f1df0b5871696ab16c0 Mon Sep 17 00:00:00 2001
 From: Danny Baumann <dannybaumann@web.de>
 Date: Thu, 18 May 2017 11:04:40 +0200
 Subject: [PATCH] Add support for getting updates for theme color changes.
@@ -47,10 +47,10 @@ index 7763d3949915..7f7bb282cada 100644
      public int getContentHeight() {
          sWebViewApiCallSample.record(ApiCall.GET_CONTENT_HEIGHT);
 diff --git a/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java b/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java
-index c1ba2d99d899..356915bba979 100644
+index bded50661c53..7159f9e5e92d 100644
 --- a/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java
 +++ b/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java
-@@ -56,6 +56,8 @@ import org.chromium.base.task.PostTask;
+@@ -57,6 +57,8 @@ import org.chromium.base.task.PostTask;
  import org.chromium.content_public.browser.UiThreadTaskTraits;
  
  import java.lang.ref.WeakReference;
@@ -59,7 +59,7 @@ index c1ba2d99d899..356915bba979 100644
  import java.security.Principal;
  import java.security.PrivateKey;
  import java.security.cert.X509Certificate;
-@@ -100,6 +102,9 @@ class WebViewContentsClientAdapter extends SharedWebViewContentsClientAdapter {
+@@ -101,6 +103,9 @@ class WebViewContentsClientAdapter extends SharedWebViewContentsClientAdapter {
      private WeakHashMap<AwPermissionRequest, WeakReference<PermissionRequestAdapter>>
              mOngoingPermissionRequests;
  
@@ -69,7 +69,7 @@ index c1ba2d99d899..356915bba979 100644
      /**
       * Adapter constructor.
       *
-@@ -110,6 +115,17 @@ class WebViewContentsClientAdapter extends SharedWebViewContentsClientAdapter {
+@@ -111,6 +116,17 @@ class WebViewContentsClientAdapter extends SharedWebViewContentsClientAdapter {
          super(webView, webViewDelegate, context);
          try (ScopedSysTraceEvent event =
                          ScopedSysTraceEvent.scoped("WebViewContentsClientAdapter.constructor")) {
@@ -87,7 +87,7 @@ index c1ba2d99d899..356915bba979 100644
              mUiThreadHandler = new Handler() {
                  @Override
                  public void handleMessage(Message msg) {
-@@ -1029,6 +1045,24 @@ class WebViewContentsClientAdapter extends SharedWebViewContentsClientAdapter {
+@@ -1043,6 +1059,24 @@ class WebViewContentsClientAdapter extends SharedWebViewContentsClientAdapter {
          }
      }
  
@@ -113,10 +113,10 @@ index c1ba2d99d899..356915bba979 100644
          private AwHttpAuthHandler mAwHandler;
  
 diff --git a/android_webview/java/src/org/chromium/android_webview/AwContentsClient.java b/android_webview/java/src/org/chromium/android_webview/AwContentsClient.java
-index cd30beecc656..42b6db064704 100644
+index 994e270ccac2..cb6e5c16183a 100644
 --- a/android_webview/java/src/org/chromium/android_webview/AwContentsClient.java
 +++ b/android_webview/java/src/org/chromium/android_webview/AwContentsClient.java
-@@ -156,6 +156,8 @@ public abstract class AwContentsClient {
+@@ -157,6 +157,8 @@ public abstract class AwContentsClient {
  
      public abstract void onProgressChanged(int progress);
  
@@ -162,7 +162,7 @@ index 3fa731a47a10..632c4222746b 100644
          DoUpdateVisitedHistoryInfo info = new DoUpdateVisitedHistoryInfo(url, isReload);
          mHandler.sendMessage(mHandler.obtainMessage(MSG_DO_UPDATE_VISITED_HISTORY, info));
 diff --git a/android_webview/java/src/org/chromium/android_webview/AwWebContentsObserver.java b/android_webview/java/src/org/chromium/android_webview/AwWebContentsObserver.java
-index 2c41a036cf44..e154a50e9212 100644
+index 5870cf4a9218..1cac1198e654 100644
 --- a/android_webview/java/src/org/chromium/android_webview/AwWebContentsObserver.java
 +++ b/android_webview/java/src/org/chromium/android_webview/AwWebContentsObserver.java
 @@ -139,12 +139,28 @@ public class AwWebContentsObserver extends WebContentsObserver {
@@ -210,5 +210,5 @@ index abfa0011a63d..ce7eabafe65a 100644
      public AwWebResourceResponse shouldInterceptRequest(
              AwContentsClient.AwWebResourceRequest request) {
 -- 
-2.17.1
+2.22.0
 
