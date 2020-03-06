@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0443987_474152b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 24812
+      },
+      "writtenOn": "2020-03-06T05:37:46Z",
+      "side": 1,
+      "message": "Two small comments:\n\n1- Once merged the Webview updates are not showned in the changelog of some devices like the klte for example. That\u0027s probably since it was moved to branch master. Is that fixable?\n\n2- In 16.0 \u003e app info that app is named Android System Webview.\n\nCould the commit message\u0027s title reflect that for consistency? It took me a while to find it the first time I went looking for it.",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "9d4c1be3c246fde58ef51cdd699bea93b3c4210b",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
