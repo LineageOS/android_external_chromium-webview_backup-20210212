@@ -1,4 +1,4 @@
-From 8e9c539b0e6068f3cdfa9c0da02f485de3415229 Mon Sep 17 00:00:00 2001
+From 74774aff2ed94754205b330fbc32dc075068fb5a Mon Sep 17 00:00:00 2001
 From: Danny Baumann <dannybaumann@web.de>
 Date: Thu, 18 May 2017 11:04:40 +0200
 Subject: [PATCH 1/2] Add support for getting updates for theme color changes.
@@ -13,7 +13,7 @@ Subject: [PATCH 1/2] Add support for getting updates for theme color changes.
  6 files changed, 75 insertions(+)
 
 diff --git a/android_webview/glue/java/src/com/android/webview/chromium/WebViewChromium.java b/android_webview/glue/java/src/com/android/webview/chromium/WebViewChromium.java
-index ca6aacb7e402..4a5ce71ec9db 100644
+index 8fe2100dcee3..ffd94c3d305b 100644
 --- a/android_webview/glue/java/src/com/android/webview/chromium/WebViewChromium.java
 +++ b/android_webview/glue/java/src/com/android/webview/chromium/WebViewChromium.java
 @@ -11,6 +11,7 @@ import android.content.Intent;
@@ -24,15 +24,15 @@ index ca6aacb7e402..4a5ce71ec9db 100644
  import android.graphics.Paint;
  import android.graphics.Picture;
  import android.graphics.Rect;
-@@ -76,6 +77,7 @@ import org.chromium.components.embedder_support.application.ClassLoaderContextWr
+@@ -77,6 +78,7 @@ import org.chromium.components.embedder_support.application.ClassLoaderContextWr
  import org.chromium.content_public.browser.NavigationHistory;
  import org.chromium.content_public.browser.SmartClipProvider;
  import org.chromium.content_public.browser.UiThreadTaskTraits;
 +import org.chromium.content_public.browser.WebContents;
- import org.chromium.url.GURL;
  
  import java.io.BufferedWriter;
-@@ -1169,6 +1171,13 @@ class WebViewChromium implements WebViewProvider, WebViewProvider.ScrollDelegate
+ import java.io.File;
+@@ -1161,6 +1163,13 @@ class WebViewChromium implements WebViewProvider, WebViewProvider.ScrollDelegate
          return mAwContents.getMostRecentProgress();
      }
  
@@ -45,9 +45,9 @@ index ca6aacb7e402..4a5ce71ec9db 100644
 +
      @Override
      public int getContentHeight() {
-         recordWebViewApiCall(ApiCall.GET_CONTENT_HEIGHT);
+         sWebViewApiCallSample.record(ApiCall.GET_CONTENT_HEIGHT);
 diff --git a/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java b/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java
-index ca006c6aace9..78548065678b 100644
+index 61a155a3131a..e955ad639e01 100644
 --- a/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java
 +++ b/android_webview/glue/java/src/com/android/webview/chromium/WebViewContentsClientAdapter.java
 @@ -57,6 +57,8 @@ import org.chromium.base.task.PostTask;
@@ -84,10 +84,10 @@ index ca006c6aace9..78548065678b 100644
 +                sWebChromeClientThemeColorMethodInitialized = true;
 +            }
 +
-             // See //android_webview/docs/how-does-on-create-window-work.md for more details.
              mUiThreadHandler = new Handler() {
                  @Override
-@@ -1044,6 +1060,24 @@ class WebViewContentsClientAdapter extends SharedWebViewContentsClientAdapter {
+                 public void handleMessage(Message msg) {
+@@ -1043,6 +1059,24 @@ class WebViewContentsClientAdapter extends SharedWebViewContentsClientAdapter {
          }
      }
  
@@ -113,10 +113,10 @@ index ca006c6aace9..78548065678b 100644
          private AwHttpAuthHandler mAwHandler;
  
 diff --git a/android_webview/java/src/org/chromium/android_webview/AwContentsClient.java b/android_webview/java/src/org/chromium/android_webview/AwContentsClient.java
-index a995da836f39..3c035b4eb9b1 100644
+index 3b3fc7c2d692..6bd34a30127e 100644
 --- a/android_webview/java/src/org/chromium/android_webview/AwContentsClient.java
 +++ b/android_webview/java/src/org/chromium/android_webview/AwContentsClient.java
-@@ -166,6 +166,8 @@ public abstract class AwContentsClient {
+@@ -161,6 +161,8 @@ public abstract class AwContentsClient {
  
      public abstract void onProgressChanged(int progress);
  
